@@ -1,3 +1,5 @@
+import { UserRepository } from "../db/repositories"
+
 const books = [
   {
     title: 'The Awakening',
@@ -13,9 +15,15 @@ const books = [
   },
 ]
 
+
 const resolvers = {
   Query: {
     books: () => books,
+    users: async () => {
+      const users = await UserRepository.getUserList()
+      console.log(users)
+      return users
+    }
   },
 }
 

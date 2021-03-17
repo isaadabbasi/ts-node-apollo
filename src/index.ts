@@ -1,18 +1,8 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-
-// This allows TypeScript to detect our global value for Sentry stack tracing
-declare global {
-  namespace NodeJS {
-    interface Global {
-      __rootdir__: string
-    }
-  }
-}
-
-global.__rootdir__ = __dirname || process.cwd()
+require('dotenv').config()
 
 import { startApolloSever, closeApolloServer } from './graphql/server'
 import { verifyEnvironment } from './utils/env'
+import { connect } from './db'
 
 function logGoodbye(): void {
   console.log('Cya! Thanks for stopping by.')
@@ -20,7 +10,7 @@ function logGoodbye(): void {
 
 function bootstrap(): Promise<void> {
   verifyEnvironment()
-  return startApolloSever()
+  return connect.default.then(startApolloSever)
 }
 
 function cleanExit(): Promise<any> {

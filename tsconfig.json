@@ -8,7 +8,9 @@
     "allowJs": false,
     "checkJs": false,
     "skipLibCheck": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
   },
   "exclude": [ "node_modules" ],
   "include": [ "src/**/*.ts" ]
