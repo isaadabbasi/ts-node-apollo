@@ -1,4 +1,6 @@
 import { UserRepository } from "../db/repositories"
+import { logger as _logger } from '../utils'
+const { default: logger, formatLog } = _logger
 
 const books = [
   {
@@ -21,7 +23,7 @@ const resolvers = {
     books: () => books,
     users: async () => {
       const users = await UserRepository.getUserList()
-      console.log(users)
+      logger.info(formatLog('users', users))
       return users
     }
   },
