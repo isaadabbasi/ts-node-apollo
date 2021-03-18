@@ -1,0 +1,39 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug NFT",
+      "program": "${workspaceFolder}/src/index.ts",
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}",
+      "runtimeArgs": [
+        "-r",
+        "${workspaceFolder}/node_modules/ts-node/register",
+        "-r",
+        "${workspaceFolder}/node_modules/tsconfig-paths/register"
+      ],
+      "args": ["${workspaceFolder}/src/index.ts"],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "restart": true,
+      "skipFiles": ["${workspaceFolder}/node_modules/**/*"],
+      "sourceMaps": true
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "pwa-node",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/src/graphql/resolvers.spec.ts",
+      "outFiles": [
+        "${workspaceFolder}/**/*.js"
+      ]
+    }
+  ]
+}
