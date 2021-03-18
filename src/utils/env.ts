@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 
 export const verifyEnvironment = (): void => {
-  console.info('Loading environment...\n', )
+  console.info('Loading environment...\n')
 }
 
 export const parseBoolean = (str: string): boolean => {

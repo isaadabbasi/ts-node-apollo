@@ -1,4 +1,4 @@
-export function serialize(payload: any) {
+export function serialize(payload: any): any {
   const premitives = ['string', 'boolean', 'number', 'undefined']
   if (premitives.includes(typeof payload)) return payload
   else if (typeof payload === 'object') return JSON.stringify(payload)

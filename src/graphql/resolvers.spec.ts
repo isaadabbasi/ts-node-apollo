@@ -1,7 +1,4 @@
-import { logger as loggerUtils } from '@src/utils'
 import resolvers from './resolvers'
-
-const logger = loggerUtils.getLoggerInstance()
 
 describe('[UNIT] src/graphql/resolvers.ts', () => {
   it('should be an object', () => {

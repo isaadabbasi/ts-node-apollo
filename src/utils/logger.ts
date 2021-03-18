@@ -14,7 +14,7 @@ export function createLoggerInstance(): pino.Logger {
         level: (l) => ({ type: l }),
       },
     },
-    destination
+    destination,
   ).child({})
 }
 
@@ -28,6 +28,6 @@ export function getLoggerInstance(): pino.Logger {
   return getLoggerInstance()
 }
 
-export function formatLog(resolver: string, payload: any = '') {
+export function formatLog(resolver: string, payload: any = ''): string {
   return `${resolver}:${serialize(payload)}`
 }

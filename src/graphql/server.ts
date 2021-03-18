@@ -4,11 +4,11 @@ import typeDefs from './typedefs'
 import resolvers from './resolvers'
 
 export const startApolloSever = async (): Promise<void> => {
-  const server = new ApolloServer({ typeDefs, resolvers,  })
+  const server = new ApolloServer({ typeDefs, resolvers  })
   const PORT = 4000
   return server.listen(PORT).then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`)
-  });
+  })
 }
 
 export const closeApolloServer = (): Promise<boolean> => {

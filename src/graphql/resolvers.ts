@@ -1,4 +1,5 @@
-import { UserRepository } from "@src/db/repositories"
+import { User } from '@src/db/entities'
+import { UserRepository } from '@src/db/repositories'
 import { logger as _logger } from '@src/utils'
 const { getLoggerInstance, formatLog } = _logger
 
@@ -21,12 +22,12 @@ const books = [
 
 const resolvers = {
   Query: {
-    books: () => books,
-    users: async () => {
+    books: (): Array<{title: string; author: string}> => books,
+    users: async (): Promise<User[]> => {
       const users = await UserRepository.getUserList()
       logger.info(formatLog('users', users))
       return users
-    }
+    },
   },
 }
 

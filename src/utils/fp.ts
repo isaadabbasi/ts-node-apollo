@@ -38,7 +38,6 @@ export const tap = <T>(fn: FnT2Any<T>): FnT2T<T> => (value: T): T => {
   return value
 }
 
-
 /**
  * runs tap(fn) iff the if_fn predicate returns truthy
  * @param if_fn: T => boolean
@@ -73,7 +72,6 @@ export const tapCatch = <T>(fn: FnT2Any<T>): FnT2T<T> => (value: T): T => {
   return value
 }
 
-
 /**
  * runs tap(fn) iff value is not null
  * @param fn: T => any
@@ -82,7 +80,6 @@ export const tapCatch = <T>(fn: FnT2Any<T>): FnT2T<T> => (value: T): T => {
 export const tapMaybe = <T>(fn: FnT2Any<T>): FnT2T<T | nil> => (value: T): T | nil => {
   return _.isNil(value) ? value : tap(fn)(value)
 }
-
 
 /**
  * runs fn (as a side effect), then throws the given value.
@@ -93,7 +90,6 @@ export const tapThrow = <T>(fn: FnT2Any<T>): FnT2T<T> => (value: T): T => {
   fn(value)
   throw value
 }
-
 
 /**
  * similar to thru but catches and ingores errors produced by fn.
@@ -171,7 +167,6 @@ export const thruIf = <T>(ifFn: FnPred<T>) => (fn: FnT2T<T>): FnT2T<T> => {
 export const promiseMap = <T, K>(mapper: (v: T, i: number, a: T[]) => Promise<K>): (list: T[]) => Promise<K[]> => (list: T[]): Promise<K[]> => {
   return Promise.all(list.map(mapper))
 }
-
 
 export const promiseFilter = <T>(filter: (v: T, i: number, a: T[]) => Promise<boolean>, negate: boolean): (list: T[]) => Promise<T[]> => (list: T[]): Promise<T[]> => {
   return Promise.resolve(list)

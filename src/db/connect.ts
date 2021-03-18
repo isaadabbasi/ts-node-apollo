@@ -1,4 +1,4 @@
-import { createConnection } from 'typeorm'
+import { Connection, createConnection } from 'typeorm'
 import * as pgtools from 'pgtools'
 import { User } from './entities'
 import * as envars from '@src/env'
@@ -9,7 +9,7 @@ function createDB(config: { [x: string]: any } = {}): Promise<any> {
     password: envars.TYPEORM_PASSWORD,
     port: envars.TYPEORM_PORT,
     host: envars.TYPEORM_HOST,
-    ...config
+    ...config,
   }
   const database = config.database || envars.TYPEORM_DATABASE
   return pgtools.createdb(_config, database)
@@ -23,7 +23,7 @@ function createDB(config: { [x: string]: any } = {}): Promise<any> {
     })
 }
 
-function connectToDB(config = {}) {
+function connectToDB(config = {}): Promise<Connection> {
   return createConnection({
     type: 'postgres',
     host: envars.TYPEORM_HOST,
@@ -38,11 +38,11 @@ function connectToDB(config = {}) {
       `${envars.TYPEORM_MIGRATIONS_DIR}/*.ts`,
       `${envars.TYPEORM_MIGRATIONS_DIR}/*.js`,
     ],
-    ...config
+    ...config,
   })
 }
 
-export function establishConnection(config = {}) {
+export function establishConnection(config = {}): Promise<Connection> {
   let beforeConnet = Promise.resolve()
   if (!envars.FAST_BOOT) beforeConnet = createDB(config)
   return beforeConnet.then(() => connectToDB(config))
