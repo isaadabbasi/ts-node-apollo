@@ -1,6 +1,8 @@
 import { UserRepository } from "@src/db/repositories"
 import { logger as _logger } from '@src/utils'
-const { default: logger, formatLog } = _logger
+const { getLoggerInstance, formatLog } = _logger
+
+const logger = getLoggerInstance()
 
 const books = [
   {
