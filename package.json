@@ -3,22 +3,30 @@
   "version": "0.0.1",
   "description": "",
   "main": "./src/index.js",
-  "scripts": {
-    "build": "tsc",
-    "build-run": "npm run build && node ./dist/index",
-    "dev": "nodemon",
-    "test": "jest",
-    "test-watch": "jest --watch"
-  },
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index",
+    "build-start": "npm run build && npm run start",
+    "dev": "nodemon",
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "preinstall": "which link-module-alias && link-module-alias clean || echo",
+    "postinstall": "link-module-alias"
+  },
+  "_moduleAliases": {
+    "@src": "./dist"
+  },
   "dependencies": {
     "apollo-server": "^2.21.1",
     "dotenv": "^8.2.0",
     "graphql": "^15.5.0",
+    "link-module-alias": "^1.2.0",
     "lodash": "^4.17.21",
     "pgtools": "^0.3.1",
     "pino": "^6.11.2",
+    "tsconfig-paths": "^3.9.0",
     "typeorm": "^0.2.31"
   },
   "devDependencies": {

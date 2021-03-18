@@ -1,7 +1,7 @@
 import { createConnection } from 'typeorm'
 import * as pgtools from 'pgtools'
 import { User } from './entities'
-import * as envars from '../env'
+import * as envars from '@src/env'
 
 function createDB(config: { [x: string]: any } = {}): Promise<any> {
   const _config = {

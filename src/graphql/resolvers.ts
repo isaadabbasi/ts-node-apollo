@@ -1,5 +1,5 @@
-import { UserRepository } from "../db/repositories"
-import { logger as _logger } from '../utils'
+import { UserRepository } from "@src/db/repositories"
+import { logger as _logger } from '@src/utils'
 const { default: logger, formatLog } = _logger
 
 const books = [
@@ -16,7 +16,6 @@ const books = [
     author: 'James Author',
   },
 ]
-
 
 const resolvers = {
   Query: {
