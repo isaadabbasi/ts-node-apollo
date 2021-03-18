@@ -10,8 +10,8 @@
     "start": "node ./dist/index",
     "build-start": "npm run build && npm run start",
     "dev": "nodemon",
-    "test": "jest",
-    "test-watch": "jest --watch",
+    "test": "jest --verbose",
+    "test-watch": "jest --watch --verbose",
     "preinstall": "which link-module-alias && link-module-alias clean || echo",
     "postinstall": "link-module-alias"
   },
