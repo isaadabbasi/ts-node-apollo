@@ -1,19 +1,19 @@
 require('dotenv').config()
 
-import { startApolloSever, closeApolloServer } from './graphql/server'
-import { verifyEnvironment } from './utils/env'
+import { startExpressServer, closeApolloServer } from './server'
+import { verifyEnvironment } from './env'
 import { connect } from './db'
 
-function logGoodbye(): void {
+const logGoodbye = (): void => {
   console.log('Cya! Thanks for stopping by.')
 }
 
-function bootstrap(): Promise<void> {
+const bootstrap = (): Promise<void> => {
   verifyEnvironment()
-  return connect.default.then(startApolloSever)
+  return connect.default.then(startExpressServer)
 }
 
-function cleanExit(): Promise<any> {
+const cleanExit = (): Promise<any> => {
   return closeApolloServer()
     .finally(() => {
       logGoodbye()
@@ -21,7 +21,7 @@ function cleanExit(): Promise<any> {
     })
 }
 
-function handleError(err: Error): void {
+const handleError = (err: Error): void => {
   console.error(err)
   throw err
 }

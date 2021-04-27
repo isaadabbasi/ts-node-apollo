@@ -3,14 +3,16 @@ version: "3.7"
 services:
   postgres:
     image: postgres:12.3-alpine
+    container_name: resort-db
     restart: always
     environment:
-      - POSTGRES_USER=nft
+      - POSTGRES_DB=resort
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     ports:
-      - 5432:5432
+      - 5433:5432
     volumes:
-      - postgres-data:/var/lib/postgresql/data/
+      - nft-db:/var/lib/postgresql/data/
 
 volumes:
-  postgres-data:
+  nft-db:

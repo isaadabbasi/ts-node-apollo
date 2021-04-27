@@ -1,0 +1,8 @@
+
+extend type Query {
+  user(id: ID!): ID
+}
+
+extend type Mutation {
+  signin: Boolean
+}

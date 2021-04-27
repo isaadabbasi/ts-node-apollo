@@ -1,13 +1,8 @@
 import * as pino from 'pino'
+import { NODE_ENV } from '@src/env'
 import { serialize } from './transform'
 
-export const destination = pino.destination({
-  dest: './log-debug',
-  minLength: 4096, //4kb logs buffer before it writes all the logs to log-debug
-  sync: false,
-})
-
-export function createLoggerInstance(): pino.Logger {
+export const createLoggerInstance = (): pino.Logger => {
   return pino(
     {
       formatters: {
@@ -18,8 +13,13 @@ export function createLoggerInstance(): pino.Logger {
   ).child({})
 }
 
-let loggerCached: pino.Logger
-export function getLoggerInstance(): pino.Logger {
+export const destination = pino.destination({
+  dest: './log-debug',
+  minLength: NODE_ENV === 'production' ? 4096: 512, //4kb logs buffer before it writes all the logs to log-debug
+  sync: false,
+})
+
+export const getLoggerInstance = (): pino.Logger => {
   if (loggerCached) {
     return loggerCached
   }
@@ -27,7 +27,8 @@ export function getLoggerInstance(): pino.Logger {
   loggerCached = _logger
   return getLoggerInstance()
 }
-
-export function formatLog(resolver: string, payload: any = ''): string {
+export const formatLog = (resolver: string, payload: any = ''): string => {
   return `${resolver}:${serialize(payload)}`
 }
+
+let loggerCached: pino.Logger

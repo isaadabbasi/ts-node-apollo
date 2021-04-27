@@ -1,39 +1,17 @@
-# compiled output
-/dist
-/tmp
-/out-tsc
-/.ebextensions
+# System files
+.idea
+.DS_Store
+Thumbs.db
+
+# compiled / dependencies
+dist
+node_modules
 terraform/.terraform
 terraform/shared/.terraform
-terraform/local-deploy.sh
 *.zip
+.env
 
-# dependencies
-/node_modules
-
-# profiling files
-chrome-profiler-events*.json
-speed-measure-plugin*.json
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-GQL*.zip
+#logging file
 log-debug
 
 # System Files
@@ -43,3 +21,9 @@ Thumbs.db
 *.db
 tsconfig.tsbuildinfo
 .eslintcache
+
+#src/graphql/types.d.ts
+src/defs/gql-types.ts
+
+#keys
+bin/jwt*
