@@ -2,7 +2,7 @@ require('dotenv').config()
 
 import { startExpressServer, closeApolloServer } from './server'
 import { verifyEnvironment } from './env'
-import { connect } from './db'
+import * as connect from './db/connect'
 
 const logGoodbye = (): void => {
   console.log('Cya! Thanks for stopping by.')
@@ -10,7 +10,7 @@ const logGoodbye = (): void => {
 
 const bootstrap = (): Promise<void> => {
   verifyEnvironment()
-  return connect.default.then(startExpressServer)
+  return connect.establishConnection().then(startExpressServer)
 }
 
 const cleanExit = (): Promise<any> => {

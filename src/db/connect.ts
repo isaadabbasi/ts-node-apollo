@@ -2,6 +2,7 @@ import { Connection, createConnection } from 'typeorm'
 import * as pgtools from 'pgtools'
 import { User } from './entities'
 import * as envars from '@src/env'
+import { fp } from '@src/utils'
 
 function createDB(config: { [x: string]: any } = {}): Promise<any> {
   const _config = {
@@ -42,11 +43,15 @@ function connectToDB(config = {}): Promise<Connection> {
   })
 }
 
-export function establishConnection(config = {}): Promise<Connection> {
-  let beforeConnet = Promise.resolve()
-  if (!envars.FAST_BOOT) beforeConnet = createDB(config)
-  return beforeConnet.then(() => connectToDB(config))
-}
+let connection: Connection
+export const establishConnection = (config = {}): Promise<Connection> => {
+  if (connection) return Promise.resolve(connection)
 
-const connection = establishConnection()
-export default connection
+  let beforeConnect = Promise.resolve()
+  if (!envars.FAST_BOOT) {
+    beforeConnect = createDB(config)
+  }
+  return beforeConnect
+    .then(() => connectToDB(config))
+    .then(fp.tap((_conn: Connection) => void (connection = _conn)))
+}
