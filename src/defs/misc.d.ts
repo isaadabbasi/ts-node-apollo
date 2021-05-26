@@ -5,3 +5,5 @@ export interface ApolloCtx {
   response: http.ServerResponse
   user: entities.User
 }
+
+export type Nullable<T> = T | undefined

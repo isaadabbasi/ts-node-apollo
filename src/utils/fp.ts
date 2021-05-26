@@ -1,30 +1,31 @@
 import * as _ from 'lodash'
 
 // T => any
-type FnT2Any<T> = (value: T) => any;
+type FnT2Any<T> = (value: T) => any
 
 // T => T
-type FnT2T<T> = (value: T) => T;
+type FnT2T<T> = (value: T) => T
 
 // T => U
-type FnT2U<T, U> = (value: T) => U;
+type FnT2U<T, U> = (value: T) => U
 
 // T => Promise<T>
-type FnT2PromiseT<T> = (value: T) => Promise<T>;
+type FnT2PromiseT<T> = (value: T) => Promise<T>
+
+// T[] => Promise<T>
+type FnTs2PromiseT<T> = (values: T[]) => Promise<T>
 
 // T => Promise<any>
-type FnT2PromiseAny<T> = (value: T) => Promise<any>;
+type FnT2PromiseAny<T> = (value: T) => Promise<any>
 
 // T => Promise<U>
-type FnT2PromiseU<T, U> = (value: T) => Promise<U>;
+type FnT2PromiseU<T, U> = (value: T) => Promise<U>
 
 // T => Boolean
-type FnPred<T> = (value: T) => boolean;
+type FnPred<T> = (value: T) => boolean
 
 // T => Boolean
-type FnPredPromise<T> = (value: T) => Promise<boolean>;
-
-type nil = null | undefined;
+type FnPredPromise<T> = (value: T) => Promise<boolean>
 
 /**
  * runs fn (as a side effect), then returns value.
@@ -77,7 +78,7 @@ export const tapCatch = <T>(fn: FnT2Any<T>): FnT2T<T> => (value: T): T => {
  * @param fn: T => any
  * @return fn: T => T | nil
  */
-export const tapMaybe = <T>(fn: FnT2Any<T>): FnT2T<T | nil> => (value: T): T | nil => {
+export const tapMaybe = <T>(fn: FnT2Any<T>): FnT2T<T> => (value: T): T => {
   return _.isNil(value) ? value : tap(fn)(value)
 }
 
@@ -97,7 +98,7 @@ export const tapThrow = <T>(fn: FnT2Any<T>): FnT2T<T> => (value: T): T => {
  * @param fn: T => U
  * @return T => Promise<U> | Promise<null>
  */
-export const thruCatch = <T, U>(fn: FnT2U<T, U>): FnT2PromiseU<T, U | null> => (value: T): Promise<U> => {
+export const thruCatch = <T, U>(fn: FnT2U<T, U>): FnT2PromiseU<T, U | null> => (value: T): Promise<U | null> => {
   return Promise.resolve()
     .then(() => fn(value))
     .catch((err) => {
@@ -172,4 +173,36 @@ export const promiseFilter = <T>(filter: (v: T, i: number, a: T[]) => Promise<bo
   return Promise.resolve(list)
     .then(promiseMap(filter))
     .then(filterMap => list.filter((_, index) => !!negate ? !filterMap[index] : filterMap[index]))
+}
+
+export const I = <T>(identity: T): T => identity
+export const N = (): null => null
+
+export const negate = <T>(fn: FnPred<T> = Boolean) => (value: T): boolean => !fn(value)
+
+/**
+ * @example fp.thruThrowIf( ifFn => fn that returns boolean )(fn => fn that returns Error)
+ *
+ * @param ifFn: T => Boolean
+ * @param fn: T => new Error()
+ */
+export const thruThrowIf = <T>(ifFn: FnPred<T>) => (fn: () => InstanceType<typeof Error>): FnT2T<T> => {
+  return (value: T): T => {
+    if (ifFn(value)) {
+      throw fn()
+    } 
+    return value
+  }
+}
+
+/**
+ * @example fp.sequentialAsync( fn => fn that returns Promise<T> )( Array of T/values )
+ *
+ * @param fn: T => Promise<T>
+ * @param values: T[]
+ */
+export const sequentialAsync = <T>(fn: FnT2PromiseT<T>): FnTs2PromiseT<T> => (values: T[]): Promise<T> => {
+  return values.reduce((prev: Promise<any>, value): Promise<T> => {
+    return prev.then(() => fn(value))
+  }, Promise.resolve())
 }
